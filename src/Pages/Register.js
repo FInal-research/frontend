@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import loginImage from "../assets/register.avif";
 import { ToastContainer, toast } from "react-toastify";
 import Container from "../components/Container";
+import { useDispatch } from "react-redux";
+import { increment } from "../appRedux/slice";
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -124,7 +127,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <button className="px-8 py-2 mt-4 bg-blue-600 w-fit text-sm text-white rounded-xl">
+                <button
+                  onClick={() => dispatch(increment())}
+                  className="px-8 py-2 mt-4 bg-blue-600 w-fit text-sm text-white rounded-xl"
+                >
                   Submit
                 </button>
               </div>

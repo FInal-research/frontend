@@ -43,6 +43,10 @@ const Navbar = () => {
           Articles
         </Link>
         <Link
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+          }}
           className={`hover:text-red-500 ${
             params.pathname === "/" && "text-red-500"
           }`}

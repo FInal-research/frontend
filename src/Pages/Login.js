@@ -3,12 +3,16 @@ import loginImage from "../assets/login.webp";
 import { ToastContainer, toast } from "react-toastify";
 import Container from "../components/Container";
 import Footer from "../components/Footer";
+import axios from "axios";
+import { base_url } from "../environment";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(true);
-  const handleSubmit = (e) => {
+  const [error, setError] = useState(false);
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // if (!email) {
@@ -22,6 +26,7 @@ const Login = () => {
     //     progress: undefined,
     //     theme: "light",
     //   });
+    //   return;
     // } else if (!password) {
     //   toast.error("Password is required", {
     //     position: "top-right",
@@ -33,6 +38,7 @@ const Login = () => {
     //     progress: undefined,
     //     theme: "light",
     //   });
+    //   return;
     // } else if (password.length < 8) {
     //   toast.error("Password must contain with at least 8 characters", {
     //     position: "top-right",
@@ -44,18 +50,33 @@ const Login = () => {
     //     progress: undefined,
     //     theme: "light",
     //   });
-    // } else
-    if (error) {
-      toast.error("Enter the correct password", {
-        position: "top-right",
-        autoClose: 10000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    //   return;
+    // } else if (error) {
+    //   toast.error("Enter the correct password", {
+    //     position: "top-right",
+    //     autoClose: 10000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    //   return;
+    // }
+    try {
+      const res = await axios.post(base_url + "user/login", {
+        email,
+        password,
       });
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.user._id);
+
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log("Login error: ", error);
     }
   };
 
