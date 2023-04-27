@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import { base_url } from "../environment";
 import moment from "moment/moment";
 import Comment from "./Comment";
+import { useDispatch } from "react-redux";
+import { getArticles } from "../Pages/redux/articles/action";
 
 const Post = ({ article }) => {
+  const dispatch = useDispatch();
   const [newComment, setNewComment] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +26,10 @@ const Post = ({ article }) => {
       data,
       options
     );
-    console.log(res);
+    if (res.status === 200) {
+      dispatch(getArticles());
+      setNewComment("");
+    }
   };
 
   return (
@@ -33,7 +39,7 @@ const Post = ({ article }) => {
       </h1>
       <h1 className="mt-8 font-mono text-base text-gray-600">{article.body}</h1>
       {article.comments.map((comment, index) => (
-        <Comment comment={comment} />
+        <Comment comment={comment} articleId={article._id} />
       ))}
       <div className="w-full flex flex-col items-center mt-2 ">
         <input

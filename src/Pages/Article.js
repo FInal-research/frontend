@@ -2,22 +2,14 @@ import React, { useEffect } from "react";
 import Container from "../components/Container";
 import Post from "../components/Post";
 import { useState } from "react";
-import axios from "axios";
-import { base_url } from "../environment";
+import { useDispatch, useSelector } from "react-redux";
+import { getArticles } from "./redux/articles/action";
 
 const Article = () => {
-  const [articles, setArticles] = useState([]);
+  const dispatch = useDispatch();
+  const { articles } = useSelector((state) => state.article);
   useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const res = await axios.get(base_url + "article/getArticles");
-        console.log(res);
-        setArticles(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getArticles();
+    dispatch(getArticles());
   }, []);
   return (
     <Container>

@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import counterSlice from "./slice";
+import articleSlice from "../Pages/redux/articles/reducer";
 
 const rootReducer = combineReducers({
-  counter: counterSlice.reducer,
+  article: articleSlice.reducer,
 });
 
 export default rootReducer;
