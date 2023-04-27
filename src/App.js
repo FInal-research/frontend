@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Home from "./Pages/Home";
 import Prediction from "./Pages/Prediction";
+import Article from "./Pages/Article";
 
 const ProtectedRoute = () => {
   const isAuthenticated = localStorage.getItem("token");
@@ -31,6 +32,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/prediction" element={<Prediction />} />
+          <Route path="/article" element={<Article />} />
         </Route>
       </Routes>
       {/* <Navigate to="/home" /> */}

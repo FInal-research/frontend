@@ -4,56 +4,81 @@ import { ToastContainer, toast } from "react-toastify";
 import Container from "../components/Container";
 import { useDispatch } from "react-redux";
 import { increment } from "../appRedux/slice";
+import axios from "axios";
+import { base_url } from "../environment";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
+
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState(true);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!email) {
-    //   toast.error("Email is required", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // } else if (!password) {
-    //   toast.error("Password is required", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // } else if (password.length < 8) {
-    //   toast.error("Password must contain with at least 8 characters", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // } else
-    if (error) {
+    if (!email || !fullName || !password || !confirmPassword || !age) {
+      toast.error("All fields are required", {
+        position: "top-right",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (password.length < 8) {
+      toast.error("Password must contain with at least 8 characters", {
+        position: "top-right",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (password !== confirmPassword) {
       toast.error("The password and confirm password fields do not match", {
         position: "top-right",
         autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    try {
+      const res = await axios.post(base_url + "user/signup", {
+        fullName,
+        email,
+        password,
+        age,
+      });
+      if (res.status === 200) {
+        console.log(res);
+        // localStorage.setItem("token", res.data.token);
+        // localStorage.setItem("userId", res.data.user._id);
+
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("Login error: ", error);
+      toast.error(error.response.data, {
+        position: "top-right",
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -85,13 +110,24 @@ const Register = () => {
             </div>
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col mt-4">
-                <label className="text-sm  text-gray-500 ml-2">Email</label>
+                <label className="text-sm  text-gray-500 ml-2">Full Name</label>
                 <input
                   name="fullName"
                   value={fullName}
                   className="border rounded-lg px-4 py-2 md:w-96 w-72 mt-1"
                   placeholder="John doe"
                   onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col mt-4">
+                <label className="text-sm  text-gray-500 ml-2">Age</label>
+                <input
+                  type="number"
+                  name="age"
+                  value={age}
+                  className="border rounded-lg px-4 py-2 md:w-96 w-72 mt-1"
+                  placeholder="1"
+                  onChange={(e) => setAge(e.target.value)}
                 />
               </div>
               <div className="flex flex-col mt-4">

@@ -38,7 +38,7 @@ const Navbar = () => {
           className={`hover:text-red-500 ${
             params.pathname === "/articles" && "text-red-500"
           }`}
-          to="/"
+          to="/article"
         >
           Articles
         </Link>

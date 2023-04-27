@@ -15,55 +15,31 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!email) {
-    //   toast.error("Email is required", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    //   return;
-    // } else if (!password) {
-    //   toast.error("Password is required", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    //   return;
-    // } else if (password.length < 8) {
-    //   toast.error("Password must contain with at least 8 characters", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    //   return;
-    // } else if (error) {
-    //   toast.error("Enter the correct password", {
-    //     position: "top-right",
-    //     autoClose: 10000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    //   return;
-    // }
+    if (!email) {
+      toast.error("Email is required", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (!password) {
+      toast.error("Password is required", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
     try {
       const res = await axios.post(base_url + "user/login", {
         email,
@@ -77,6 +53,16 @@ const Login = () => {
       }
     } catch (error) {
       console.log("Login error: ", error);
+      toast.error("Please check the credentials", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
